@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v1
 
       - name: Restore NuGet packages
         run: nuget restore Hospital_Management_System/Hospital_Management_System.sln
@@ -36,6 +36,18 @@ jobs:
           $testAssemblies | ForEach-Object { & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" $_.FullName }
         shell: pwsh
 
+      - name: Publish Artifacts
+        run: |
+          mkdir artifact
+          cp -r Hospital_Management_System/Hospital_Management_System/bin/Release/* artifact/
+        shell: bash
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: website
+          path: artifact
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -46,4 +58,4 @@ jobs:
         with:
           app-name: 'gescalante'
           slot-name: 'production'
-          package: ${{ github.workspace }}/Hospital_Management_System/Hospital_Management_System/bin/Release/
+          package: artifact
