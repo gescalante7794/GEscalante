@@ -23,7 +23,7 @@ jobs:
         id: msbuild
         run: |
           $msbuildPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-          echo "##[set-env name=MSBUILD_PATH]$msbuildPath"
+          echo "MSBUILD_PATH=$msbuildPath" >> $env:GITHUB_ENV
 
       - name: Build with MSBuild
         run: |
