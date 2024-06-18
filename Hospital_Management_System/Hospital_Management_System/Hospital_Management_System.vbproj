@@ -354,7 +354,7 @@
 
   <ItemGroup>
     <!-- Example package references. Add your specific references here -->
-    <PackageReference Include="Microsoft.NET.Sdk.Web" Version="8.0.0" />
+    <!-- <PackageReference Include="Microsoft.NET.Sdk.Web" Version="8.0.0" /> -->
     <!-- Add other necessary package references -->
   </ItemGroup>
 
