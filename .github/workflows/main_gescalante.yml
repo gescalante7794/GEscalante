@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure Web App
+name: Build, Test, and Deploy to Azure Web App
 
 on:
   push:
@@ -8,17 +8,37 @@ on:
 jobs:
   build-and-deploy:
     runs-on: windows-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
       - name: Restore NuGet packages
         run: nuget restore Hospital_Management_System/Hospital_Management_System.sln
 
-      - name: Build with MSBuild
+      - name: Setup MSBuild path
+        id: msbuild
         run: |
           $msbuildPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-          & $msbuildPath 'Hospital_Management_System/Hospital_Management_System.sln' /p:Configuration=Release
+          echo "MSBUILD_PATH=$msbuildPath" >> $GITHUB_ENV
+
+      - name: Build with MSBuild
+        run: |
+          & $env:MSBUILD_PATH 'Hospital_Management_System/Hospital_Management_System.sln' /p:Configuration=Release
+        shell: pwsh
+
+      - name: Run Tests
+        run: |
+          & $env:MSBUILD_PATH 'Hospital_Management_System/Hospital_Management_System.sln' /p:Configuration=Release /t:VSTest
+        shell: pwsh
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
