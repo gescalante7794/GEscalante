@@ -17,7 +17,7 @@ jobs:
 
       - name: Build with Visual Studio
         run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" Hospital_Management_System/Hospital_Management_System.sln /p:Configuration=Release
+          & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe' 'Hospital_Management_System/Hospital_Management_System.sln' /p:Configuration=Release
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
