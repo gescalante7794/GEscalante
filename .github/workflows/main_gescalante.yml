@@ -32,7 +32,8 @@ jobs:
 
       - name: Run Tests
         run: |
-          & "$env:MSBUILD_PATH" 'Hospital_Management_System/Hospital_Management_System.sln' /p:Configuration=Release /t:VSTest
+          $testAssemblies = Get-ChildItem -Path "Hospital_Management_System/Hospital_Management_System/bin/Release" -Filter *.Tests.dll -Recurse
+          $testAssemblies | ForEach-Object { & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" $_.FullName }
         shell: pwsh
 
       - name: Azure Login
