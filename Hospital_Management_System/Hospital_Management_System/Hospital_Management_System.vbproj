@@ -348,13 +348,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Example package references. Add your specific references here -->
-    <PackageReference Include="Microsoft.NET.Sdk.Web" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NET.Sdk.Web" Version="8.0.0" />
     <!-- Add other necessary package references -->
   </ItemGroup>
 
